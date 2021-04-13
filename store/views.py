@@ -6,6 +6,20 @@ from .models import *
 from django.views.generic import ListView
 
 
+def product(request, product_id):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
+
+    product = Product.objects.get(id=product_id)
+    context = {"product": product, 'cartItems': cartItems}
+    print(product)
+    return render(request, 'store/product.html', context)
+
+
 def search(request):
     search_term = ''
     if request.user.is_authenticated:

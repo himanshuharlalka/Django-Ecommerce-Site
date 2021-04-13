@@ -3,33 +3,77 @@ from django.http import JsonResponse
 import json
 import datetime
 from .models import *
+from django.views.generic import ListView
+
+
+def search(request):
+    search_term = ''
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
+
+    if 'search' in request.GET:
+        search_term = request.GET['search']
+        search_result = Product.objects.all().filter(tags__icontains=search_term)
+
+    products = Product.objects.all()
+    context = {'products': products, 'search_result': search_result,
+               'search_term': search_term, 'cartItems': cartItems}
+    return render(request, 'store/search.html', context)
 
 
 def fashion(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
 
     products = Product.objects.all()
-    context = {'products': products}
+    context = {'products': products, 'cartItems': cartItems}
     return render(request, 'store/fashion.html', context)
 
 
 def books(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
 
     products = Product.objects.all()
-    context = {'products': products}
+    context = {'products': products, 'cartItems': cartItems}
     return render(request, 'store/books.html', context)
 
 
 def electronics(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
 
     products = Product.objects.all()
-    context = {'products': products}
+    context = {'products': products, 'cartItems': cartItems}
     return render(request, 'store/electronics.html', context)
 
 
 def accessories(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
 
     products = Product.objects.all()
-    context = {'products': products}
+    context = {'products': products, 'cartItems': cartItems}
     return render(request, 'store/accessories.html', context)
 
 

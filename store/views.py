@@ -15,8 +15,7 @@ def product(request, product_id):
             customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
-    else:
-        return redirect('login')
+  
     
 
     product = Product.objects.get(id=product_id)
@@ -248,7 +247,7 @@ def login(request):
           auth.login(request,user)
           return redirect('/')
       else:
-          message.info(request,'invalid credentials')
+          messages.info(request,'invalid credentials')
           return redirect('login')
 
     else:

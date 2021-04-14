@@ -1,7 +1,13 @@
+
+from django.shortcuts import render,redirect
+from django.contrib.auth.models import User,auth
+from django.contrib import messages
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
+
 from django.http import JsonResponse
 import json
 import datetime
@@ -16,12 +22,23 @@ def product(request, product_id):
             customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+
+    else:
+        return redirect('login')
+    
+
+    product = Product.objects.get(id=product_id)
+    context = {"product": product, 'cartItems': cartItems}
+    print(product)
+    return render(request, 'store/product.html', context)
+
         product = Product.objects.get(id=product_id)
         context = {"product": product, 'cartItems': cartItems}
     else:
         product = Product.objects.get(id=product_id)
         context = {"product": product}
     return render(request, 'store/product.html', context)
+
 
 
 def search(request):
@@ -131,6 +148,7 @@ def store(request):
 
 
 def cart(request):
+    
 
     if request.user.is_authenticated:
         customer = request.user.customer
@@ -138,11 +156,13 @@ def cart(request):
             customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        
     else:
         # Create empty cart for now for non-logged in user
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
         cartItems = order['get_cart_items']
+        return redirect('login')
 
     context = {'items': items, 'order': order, 'cartItems': cartItems}
     return render(request, 'store/cart.html', context)
@@ -272,4 +292,11 @@ def login(request):
 
     else:
 
+
+        return render(request,"store/login.html")   
+def logout(request):
+    auth.logout(request)
+    return redirect('/')
+
         return render(request, "store/login.html")
+

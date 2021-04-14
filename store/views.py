@@ -24,6 +24,7 @@ def product(request, product_id):
         cartItems = order.get_cart_items
         product = Product.objects.get(id=product_id)
         context = {"product": product, 'cartItems': cartItems}
+
         print(product)
         return render(request, 'store/product.html', context)
   
@@ -32,29 +33,34 @@ def product(request, product_id):
    
 
        
+
     else:
         product = Product.objects.get(id=product_id)
         context = {"product": product}
-        return render(request, 'store/product.html', context)
+    return render(request, 'store/product.html', context)
 
 
 
 def search(request):
     search_term = ''
+    if 'search' in request.GET:
+        search_term = request.GET['search']
+        search_result = Product.objects.all().filter(tags__icontains=search_term)
+
     if request.user.is_authenticated:
         customer = request.user.customer
         order, created = Order.objects.get_or_create(
             customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        products = Product.objects.all()
+        context = {'products': products, 'search_result': search_result,
+                   'search_term': search_term, 'cartItems': cartItems}
+    else:
+        products = Product.objects.all()
+        context = {'products': products, 'search_result': search_result,
+                   'search_term': search_term}
 
-    if 'search' in request.GET:
-        search_term = request.GET['search']
-        search_result = Product.objects.all().filter(tags__icontains=search_term)
-
-    products = Product.objects.all()
-    context = {'products': products, 'search_result': search_result,
-               'search_term': search_term, 'cartItems': cartItems}
     return render(request, 'store/search.html', context)
 
 
@@ -65,9 +71,12 @@ def fashion(request):
             customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        products = Product.objects.all()
+        context = {'products': products, 'cartItems': cartItems}
+    else:
+        products = Product.objects.all()
+        context = {'products': products}
 
-    products = Product.objects.all()
-    context = {'products': products, 'cartItems': cartItems}
     return render(request, 'store/fashion.html', context)
 
 
@@ -78,9 +87,12 @@ def books(request):
             customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        products = Product.objects.all()
+        context = {'products': products, 'cartItems': cartItems}
 
-    products = Product.objects.all()
-    context = {'products': products, 'cartItems': cartItems}
+    else:
+        products = Product.objects.all()
+        context = {'products': products}
     return render(request, 'store/books.html', context)
 
 
@@ -91,9 +103,12 @@ def electronics(request):
             customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        products = Product.objects.all()
+        context = {'products': products, 'cartItems': cartItems}
+    else:
+        products = Product.objects.all()
+        context = {'products': products}
 
-    products = Product.objects.all()
-    context = {'products': products, 'cartItems': cartItems}
     return render(request, 'store/electronics.html', context)
 
 
@@ -104,9 +119,12 @@ def accessories(request):
             customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        products = Product.objects.all()
+        context = {'products': products, 'cartItems': cartItems}
+    else:
+        products = Product.objects.all()
+        context = {'products': products}
 
-    products = Product.objects.all()
-    context = {'products': products, 'cartItems': cartItems}
     return render(request, 'store/accessories.html', context)
 
 

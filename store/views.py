@@ -1,6 +1,6 @@
 
-from django.shortcuts import render,redirect
-from django.contrib.auth.models import User,auth
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User, auth
 from django.contrib import messages
 
 from django.shortcuts import render, redirect
@@ -15,6 +15,17 @@ from .models import *
 from django.views.generic import ListView
 
 
+def user(request, user_id):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
+        context = {'cartItems': cartItems, 'customer': customer}
+    return render(request, 'store/user.html', context)
+
+
 def product(request, product_id):
     if request.user.is_authenticated:
         customer = request.user.customer
@@ -27,18 +38,11 @@ def product(request, product_id):
 
         print(product)
         return render(request, 'store/product.html', context)
-  
-    
-
-   
-
-       
 
     else:
         product = Product.objects.get(id=product_id)
         context = {"product": product}
     return render(request, 'store/product.html', context)
-
 
 
 def search(request):
@@ -148,7 +152,6 @@ def store(request):
 
 
 def cart(request):
-    
 
     if request.user.is_authenticated:
         customer = request.user.customer
@@ -156,7 +159,7 @@ def cart(request):
             customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
-        
+
     else:
         # Create empty cart for now for non-logged in user
         items = []
@@ -278,25 +281,23 @@ def register(request):
 
 
 def login(request):
-    if request.method=='POST':
-      username=request.POST['username']
-      password=request.POST['password']
-    
-      user=auth.authenticate(username=username,password=password)
-      if user is not None:
-          auth.login(request,user)
-          return redirect('/')
-      else:
-          messages.info(request,'invalid credentials')
-          return redirect('login')
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = auth.authenticate(username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+            return redirect('/')
+        else:
+            messages.info(request, 'invalid credentials')
+            return redirect('login')
 
     else:
 
+        return render(request, "store/login.html")
 
-        return render(request,"store/login.html")   
+
 def logout(request):
     auth.logout(request)
     return redirect('/')
-
-        
-

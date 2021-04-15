@@ -163,7 +163,6 @@ def cart(request):
             customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
-
     else:
         # Create empty cart for now for non-logged in user
         items = []

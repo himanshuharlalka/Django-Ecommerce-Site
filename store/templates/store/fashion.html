@@ -4,6 +4,7 @@
 	<div class="row">
         <h3>Fashion</h3>
     </div>
+	<hr>
     <div class="row">
 		{% for product in products %}
 		{% if "fashion" in product.tags %}
@@ -13,8 +14,12 @@
 				<h6><strong>{{product.name}}</strong></h6>
 				<hr>
 
+				{% if user.is_authenticated %}
 				<button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
-				
+				{% else %}
+				<a href="{% url 'login' %}" class="btn btn-outline-secondary">Add to Cart</a>
+				{% endif %}
+								
 				<a class="btn btn-outline-success" href="{% url 'product' product_id=product.id %}">View</a>
 				<h4 style="display: inline-block; float: right"><strong>₹{{product.price}}</strong></h4>
 

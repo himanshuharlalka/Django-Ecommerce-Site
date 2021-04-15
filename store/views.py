@@ -34,7 +34,11 @@ def product(request, product_id):
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
         product = Product.objects.get(id=product_id)
-        context = {"product": product, 'cartItems': cartItems}
+        print(product.tags)
+        sim_products = [item for item in Product.objects.all() if any(
+            tag in item.tags for tag in product.tags)]
+        context = {"sim_products": sim_products,
+                   "product": product, 'cartItems': cartItems}
 
         print(product)
         return render(request, 'store/product.html', context)

@@ -249,8 +249,6 @@ def processOrder(request):
 
     return JsonResponse('Payment submitted..', safe=False)
 
-# Create your views here.
-
 
 def register(request):
     if request.method == 'POST':
@@ -272,8 +270,7 @@ def register(request):
                 user = User.objects.create_user(
                     username=username, password=password1, email=email, first_name=firstname, last_name=lastname)
                 customer, created = Customer.objects.get_or_create(
-                    user=request.user)
-                user.save()
+                    user=user)
                 print('user created')
                 return redirect("login")
         else:

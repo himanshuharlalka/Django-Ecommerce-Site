@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 
 	<script type="text/javascript">
@@ -64,12 +64,20 @@
 			<button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
 		  </form>
 	    <div class="form-inline my-2 my-lg-0">
+
+			{% if user.is_authenticated %}
+			<a href="{% url 'logout' %}"class="btn btn-warning">Logout</a>
+			{% else %}
+
+
 			<a href="{% url 'login' %}"class="btn btn-warning">Login</a>
-	     	
+	     	{% endif %}
 	     	<a href="{% url 'cart' %}">
 	    		<img  id="minizon-cart-icon" src="{% static 'images/minizon-cart.png' %}">
 	    	</a>
+			{% if user.is_authenticated %}
 	    	<p id="cart-total">{{cartItems}}</p>
+			{% endif %}
 
 	    </div>
 	  </div>
@@ -82,7 +90,52 @@
 
             {% endblock content %}
          </div>
-
+<br>
+<br>
+		 <footer id="footer">
+			<div class="footer-top">
+			  <div class="container">
+				<div class="row">
+		
+				  <div class="col-lg-5 col-md-12 footer-contact">
+					<img  id="minizon-cart-footer" src="{% static 'images/minizon-cart.png' %}">
+					<img  id="logo-footer" src="{% static 'images/minizon.png' %}">
+					<p>
+					 Lorem, ipsum dolor. <br>
+					  Lorem ipsum dolor sit amet.<br>
+					  Lorem, ipsum.<br>
+					  <br>
+					  <strong>Phone:</strong> 111-222-333-444<br>
+					  <a href="mailto:bliss@gmail.com"><strong>Email:</strong> minizon@gmail.com</a>
+					</p>
+				  </div>
+		
+				  <div class="col-lg-4 col-md-12 footer-links">
+					<h4>Links</h4>
+					<ul>
+					  <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+					  <li><a href="{% url 'fashion' %}"><i class="fas fa-chevron-right"></i> Fashion</a></li>
+					  <li><a href="{% url 'books' %}"><i class="fas fa-chevron-right"></i> Books</a></li>
+					  <li><a href="{% url 'electronics' %}"><i class="fas fa-chevron-right"></i> Electronics</a></li>
+					  <li><a href="{% url 'accessories' %}"><i class="fas fa-chevron-right"></i> Accessories</a></li>
+					</ul>
+				  </div>
+				  <div class="col-lg-3 col-md-12 footer-links">
+					<h4>Connect us on Social Networks</h4>
+					<div class="social-links mt-3">
+					  <a href="#"><i class="fab fa-facebook fa-2x"></i></a>
+					  <a href="#"><i class="fab fa-instagram fa-2x"></i></a>
+					  <a href="#"><i class="fab fa-whatsapp fa-2x"></i></a>
+					  <a href="#"><i class="fab fa-linkedin fa-2x"></i></a>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			<div class="footer-bottom">
+			  <center>@Copyright Minizon. Designed with ❤</center>
+			</div>
+		  </footer>
 
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 

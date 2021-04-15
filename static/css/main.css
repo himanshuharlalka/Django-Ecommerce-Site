@@ -103,3 +103,79 @@ h6 {
 .hidden {
   display: none !important;
 }
+
+footer .footer-top {
+  padding: 60px;
+  background: #00003f;
+}
+
+footer .footer-top .footer-contact h3 {
+  font-size: 40px;
+  font-weight: bolder;
+  letter-spacing: 10px;
+}
+
+footer .footer-top .footer-contact p,
+footer .footer-top .footer-contact a {
+  font-size: 16px;
+  color: whitesmoke;
+  text-decoration: none;
+}
+
+footer .footer-top .footer-contact a:hover {
+  text-decoration: none;
+  color: #0d6efd;
+}
+
+footer .footer-top h4 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffc107;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+footer .footer-top .footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #0d6efd;
+  font-size: 16px;
+  line-height: 1;
+}
+
+footer .footer-top .footer-links ul li {
+  padding: 10px 0;
+}
+
+footer .footer-top .footer-links ul a {
+  color: whitesmoke;
+  transition: 0.3s;
+  display: inline-block;
+  text-decoration: none;
+}
+
+footer .footer-top .footer-links ul a:hover {
+  text-decoration: none;
+  color: #0d6efd;
+}
+
+footer .footer-top .social-links a {
+  color: #008037;
+  margin: 10px;
+  transition: 0.5s;
+}
+
+footer .footer-bottom {
+  padding: 30px;
+  background-color: #ff914d;
+  color: white;
+  letter-spacing: 2px;
+}
+
+#logo-footer {
+  width: 250px;
+}
+#minizon-cart-footer {
+  width: 60px;
+}

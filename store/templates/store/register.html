@@ -14,11 +14,11 @@
 			margin: 0;
 			padding: 0;
 			height: 100%;
-			background: #7abecc !important;
+			background:hsl(0, 0%, 98%);
 		}
 		.user_card {
 			width: 350px;
-			margin-top: auto;
+			margin-top: 35px;
 			margin-bottom: auto;
 			background: #74cfbf;
 			position: relative;
@@ -34,20 +34,25 @@
 		}
 
 		.form_container {
-			margin-top: 20px;
+			margin-top: 15px;
 		}
 
 		#form-title{
+			margin-top:10px;
 			color: #fff;
+			font-size:30px;
 		}
 		.login_btn {
+			margin-top: 15px;
 			width: 100%;
-			background: #33ccff !important;
+			background: black !important;
 			color: white !important;
 		}
+		
 		.login_btn:focus {
 			box-shadow: none !important;
 			outline: 0px !important;
+			background-color: gainsboro;
 		}
 		.login_container {
 			padding: 0 2rem;
@@ -69,14 +74,67 @@
 			color:red;
 			font-size:15px;
 		}
+		#message,#message1 {
+			display:none;
+			
+			color: #000;
+			position: relative;
+		  
+		  
+		  }
+		  
+		#message p ,#message1 p {
+			padding:1px;
+			font-size: 14px;
+		  }
+		  
+		  .valid {
+			color: green;
+		  }
+		  
+		  .valid:before {
+			position: relative;
+			left: -35px;
+			content: "✔";
+		  }
+		
+		  .invalid {
+			color: red;
+		  }
+		
+		  .invalid:before {
+			position: relative;
+			left: -35px;
+			content: "✖";
+		  }  
+.image{
+	width:300px;
+		margin-top:20px;
+
+}
+.icon{
+	width: 100px;
+	}
 
 	</style>
 
 </head>
 <body>
 	
-	<div class="container h-100">
+<div class="container h-100">
+
+	<div class="d-flex justify-content-center">
+	
+	<div class="image">
+	<a  href="{% url 'store' %}"><img  id="logo" class="image" src="{% static 'images/minizon.png' %}"></a>
+	<!-- <a href="{% url 'cart' %}">
+		<img class="icon" id="minizon-cart-icon" src="{% static 'images/minizon-cart.png' %}">
+	</a> -->
+</div></div>
+
 		<div class="d-flex justify-content-center h-100">
+			
+
 			<div class="user_card">
 				<div class="d-flex justify-content-center">
 					<h3 id="form-title">REGISTER ACCOUNT</h3>
@@ -90,7 +148,7 @@
 				</div>
 				<div class="d-flex justify-content-center form_container">
 
-					<form action="{% url 'register' %}" method="POST" >
+					<form action="{% url 'register' %}" method="POST" onsubmit="return checkuser()" >
 						{%csrf_token%}
           <div class="input-group mb-3">
 							<div class="input-group-append">
@@ -108,8 +166,13 @@
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-							<input type="text" name="username">
+							<input type="text" id="username" name="username">
 						</div>
+						<div id="message1" >
+							<h7>username must contain the following:</h7>
+							
+							<p id="length1" class="invalid">Minimum <b>6 characters</b></p>
+						  </div>
 						
 						<div class="input-group mb-2">
 							<div class="input-group-append">
@@ -121,34 +184,42 @@
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<input type="text" name="password1">
+							<input type="password" id="psw" name="password1">
 						</div>
+						<div id="message" >
+							<h7>Password must contain the following:</h7>
+							<p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+							<p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+							<p id="number" class="invalid">A <b>number</b></p>
+							<p id="length" class="invalid">Minimum <b>8 characters</b></p>
+						  </div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<input type="text" name="password2">
+							<input type="password" name="password2">
 						</div>
             
 
 				   		<div class="d-flex justify-content-center mt-3 login_container">
-				 			<input class="btn login_btn" type="submit" value="Register Account">
+				 			<input class="btn login_btn" id="submit"type="submit" value="Register Account">
+						
 				   		</div>
 					</form>
 				</div>
 		
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
-						Already have an account? <a href="{% url 'login' %}" class="ml-2">Login</a>
+						<p></p>Already have an account? <a href="{% url 'login' %}" class="ml-2">Login</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<script>
-					
+		
 		var form_fields = document.getElementsByTagName('input')
-		form_fields[1].placeholder='Firstt Name';
+		form_fields[1].placeholder='First Name';
     form_fields[2].placeholder='Last Name';
     form_fields[3].placeholder='Username..';
 		form_fields[4].placeholder='Email..';
@@ -156,9 +227,89 @@
 		form_fields[6].placeholder='Re-enter Password...';
 
 
-		for (var field in form_fields){	
+		/*for (var field in form_fields){	
 			form_field[field].className += ' form-control'
+		}*/
+	
+	var myInput = document.getElementById("psw");
+		myInput.onfocus = function() {
+	  document.getElementById("message").style.display = "block";
 		}
+		myInput.onblur = function() {
+	  document.getElementById("message").style.display = "none";
+	}
+	var username=document.getElementById("username")
+	username.onfocus = function() {
+		document.getElementById("message1").style.display = "block";
+		  }
+		  myInput.onblur = function() {
+		document.getElementById("message1").style.display = "none";
+	  }
+	var myInput = document.getElementById("psw");
+	var letter = document.getElementById("letter");
+	var capital = document.getElementById("capital");
+	var number = document.getElementById("number");
+	var length = document.getElementById("length");
+	myInput.onkeyup = function() {
+	
+	  var lowerCaseLetters = /[a-z]/g;
+	  if(myInput.value.match(lowerCaseLetters)) {  
+		letter.classList.remove("invalid");
+		letter.classList.add("valid");
+	  } else {
+		letter.classList.remove("valid");
+		letter.classList.add("invalid");
+	  }
+	  
+	  var upperCaseLetters = /[A-Z]/g;
+	  if(myInput.value.match(upperCaseLetters)) {  
+		capital.classList.remove("invalid");
+		capital.classList.add("valid");
+	  } else {
+		capital.classList.remove("valid");
+		capital.classList.add("invalid");
+	  }
+	
+	  var numbers = /[0-9]/g;
+	  if(myInput.value.match(numbers)) {  
+		number.classList.remove("invalid");
+		number.classList.add("valid");
+	  } else {
+		number.classList.remove("valid");
+		number.classList.add("invalid");
+	  }
+	  
+	 
+	  if(myInput.value.length >=8) {
+		  console.log(myInput.value.length);
+		length.classList.remove("invalid");
+		length.classList.add("valid");
+	  } else {
+		length.classList.remove("valid");
+		length.classList.add("invalid");
+	  }
+	}
+	username.onkeyup = function() {
+	if(username.value.length >=6) {
+	  length1.classList.remove("invalid");
+	  length1.classList.add("valid");
+	} else {
+	  length1.classList.remove("valid");
+	  length1.classList.add("invalid");
+	}
+  }
+
+  var x=document.getElementById("submit")
+  x.addEventListener("click",checkuser);
+  function checkuser(){
+	  if(username.value.length<=6){
+	  alert("Username must be minimum 6 characters")
+	  return false;
+  }}
+
+
+
+
 	</script>
 </body>
 </html>

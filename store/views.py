@@ -22,7 +22,13 @@ def user(request, user_id):
             customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
-        context = {'cartItems': cartItems, 'customer': customer}
+
+        favorite, created = Favorite.objects.get_or_create(
+            customer=customer)
+        favoriteitems = favorite.favoriteitem_set.all()
+        favoriteitemsid = [item.product.id for item in favoriteitems]
+        context = {'cartItems': cartItems,
+                   'customer': customer, 'favoriteitems': favoriteitems,  'favoriteitemsid': favoriteitemsid}
     return render(request, 'store/user.html', context)
 
 
@@ -37,8 +43,12 @@ def product(request, product_id):
         print(product.tags)
         sim_products = [item for item in Product.objects.all() if any(
             tag in item.tags for tag in product.tags)]
+        favorite, created = Favorite.objects.get_or_create(
+            customer=customer)
+        favoriteitems = favorite.favoriteitem_set.all()
+        favoriteitemsid = [item.product.id for item in favoriteitems]
         context = {"sim_products": sim_products,
-                   "product": product, 'cartItems': cartItems}
+                   "product": product, 'cartItems': cartItems,  'favoriteitemsid': favoriteitemsid}
 
         print(product)
         return render(request, 'store/product.html', context)
@@ -62,12 +72,16 @@ def search(request):
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
         products = Product.objects.all()
+        favorite, created = Favorite.objects.get_or_create(
+            customer=customer)
+        favoriteitems = favorite.favoriteitem_set.all()
+        favoriteitemsid = [item.product.id for item in favoriteitems]
         context = {'products': products, 'search_result': search_result,
                    'search_term': search_term, 'cartItems': cartItems}
     else:
         products = Product.objects.all()
         context = {'products': products, 'search_result': search_result,
-                   'search_term': search_term}
+                   'search_term': search_term,  'favoriteitemsid': favoriteitemsid}
 
     return render(request, 'store/search.html', context)
 
@@ -80,7 +94,12 @@ def fashion(request):
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
         products = Product.objects.all()
-        context = {'products': products, 'cartItems': cartItems}
+        favorite, created = Favorite.objects.get_or_create(
+            customer=customer)
+        favoriteitems = favorite.favoriteitem_set.all()
+        favoriteitemsid = [item.product.id for item in favoriteitems]
+        context = {'products': products, 'cartItems': cartItems,
+                   'favoriteitemsid': favoriteitemsid}
     else:
         products = Product.objects.all()
         context = {'products': products}
@@ -96,7 +115,12 @@ def books(request):
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
         products = Product.objects.all()
-        context = {'products': products, 'cartItems': cartItems}
+        favorite, created = Favorite.objects.get_or_create(
+            customer=customer)
+        favoriteitems = favorite.favoriteitem_set.all()
+        favoriteitemsid = [item.product.id for item in favoriteitems]
+        context = {'products': products, 'cartItems': cartItems,
+                   'favoriteitemsid': favoriteitemsid}
 
     else:
         products = Product.objects.all()
@@ -112,7 +136,12 @@ def electronics(request):
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
         products = Product.objects.all()
-        context = {'products': products, 'cartItems': cartItems}
+        favorite, created = Favorite.objects.get_or_create(
+            customer=customer)
+        favoriteitems = favorite.favoriteitem_set.all()
+        favoriteitemsid = [item.product.id for item in favoriteitems]
+        context = {'products': products, 'cartItems': cartItems,
+                   'favoriteitemsid': favoriteitemsid}
     else:
         products = Product.objects.all()
         context = {'products': products}
@@ -128,7 +157,12 @@ def accessories(request):
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
         products = Product.objects.all()
-        context = {'products': products, 'cartItems': cartItems}
+        favorite, created = Favorite.objects.get_or_create(
+            customer=customer)
+        favoriteitems = favorite.favoriteitem_set.all()
+        favoriteitemsid = [item.product.id for item in favoriteitems]
+        context = {'products': products, 'cartItems': cartItems,
+                   'favoriteitemsid': favoriteitemsid}
     else:
         products = Product.objects.all()
         context = {'products': products}
@@ -144,6 +178,10 @@ def store(request):
             customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
+        favorite, created = Favorite.objects.get_or_create(
+            customer=customer)
+        favoriteitems = favorite.favoriteitem_set.all()
+        favoriteitemsid = [item.product.id for item in favoriteitems]
     else:
         # Create empty cart for now for non-logged in user
         items = []
@@ -151,7 +189,8 @@ def store(request):
         cartItems = order['get_cart_items']
 
     products = Product.objects.all()
-    context = {'products': products, 'cartItems': cartItems}
+    context = {'products': products, 'cartItems': cartItems,
+               'favoriteitemsid': favoriteitemsid}
     return render(request, 'store/store.html', context)
 
 
@@ -302,11 +341,12 @@ def logout(request):
     auth.logout(request)
     return redirect('/')
 
+
 def history(request):
 
     if request.user.is_authenticated:
         customer = request.user.customer
-        orders= Order.objects.filter(
+        orders = Order.objects.filter(
             customer=customer, complete=True)
         orderItems = OrderItem.objects.all()
         # items = order.orderitem_set.all()
@@ -319,5 +359,28 @@ def history(request):
         return redirect('login')
 
     # context = {'items': items, 'order': order, 'cartItems': cartItems}
-    context = { 'orders': orders,'orderItems': orderItems}
+    context = {'orders': orders, 'orderItems': orderItems}
     return render(request, 'store/history.html', context)
+
+
+def updateFav(request):
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+    print('Action:', action)
+    print('Product:', productId)
+
+    customer = request.user.customer
+    product = Product.objects.get(id=productId)
+    favorite, created = Favorite.objects.get_or_create(
+        customer=customer)
+
+    favoriteItem, created = FavoriteItem.objects.get_or_create(
+        favorite=favorite, product=product)
+
+    if action == 'add-fav':
+        favoriteItem.save()
+    elif action == 'remove-fav':
+        favoriteItem.delete()
+
+    return JsonResponse('Fav item was updated', safe=False)

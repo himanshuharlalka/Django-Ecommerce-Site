@@ -93,3 +93,21 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         return self.address
+
+
+class Favorite(models.Model):
+    customer = models.ForeignKey(
+        Customer, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.id)
+
+    @property
+    def get_favorite_items(self):
+        favoriteitems = self.favoriteitem_set.all()
+
+
+class FavoriteItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    favorite = models.ForeignKey(
+        Favorite, on_delete=models.SET_NULL, null=True)

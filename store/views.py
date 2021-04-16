@@ -55,7 +55,9 @@ def product(request, product_id):
 
     else:
         product = Product.objects.get(id=product_id)
-        context = {"product": product}
+        sim_products = [item for item in Product.objects.all() if any(
+            tag in item.tags for tag in product.tags)]
+        context = {"product": product, "sim_products": sim_products}
     return render(request, 'store/product.html', context)
 
 

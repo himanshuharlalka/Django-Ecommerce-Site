@@ -182,15 +182,17 @@ def store(request):
             customer=customer)
         favoriteitems = favorite.favoriteitem_set.all()
         favoriteitemsid = [item.product.id for item in favoriteitems]
+        products = Product.objects.all()
+        context = {'products': products, 'cartItems': cartItems,
+                   'favoriteitemsid': favoriteitemsid}
     else:
         # Create empty cart for now for non-logged in user
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
         cartItems = order['get_cart_items']
+        products = Product.objects.all()
+        context = {'products': products, 'cartItems': cartItems}
 
-    products = Product.objects.all()
-    context = {'products': products, 'cartItems': cartItems,
-               'favoriteitemsid': favoriteitemsid}
     return render(request, 'store/store.html', context)
 
 

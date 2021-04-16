@@ -301,3 +301,23 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect('/')
+
+def history(request):
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        orders= Order.objects.filter(
+            customer=customer, complete=True)
+        orderItems = OrderItem.objects.all()
+        # items = order.orderitem_set.all()
+        # cartItems = order.get_cart_items
+    else:
+        # Create empty cart for now for non-logged in user
+        items = []
+        order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
+        cartItems = order['get_cart_items']
+        return redirect('login')
+
+    # context = {'items': items, 'order': order, 'cartItems': cartItems}
+    context = { 'orders': orders,'orderItems': orderItems}
+    return render(request, 'store/history.html', context)

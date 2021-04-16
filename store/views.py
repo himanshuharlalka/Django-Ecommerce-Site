@@ -77,11 +77,11 @@ def search(request):
         favoriteitems = favorite.favoriteitem_set.all()
         favoriteitemsid = [item.product.id for item in favoriteitems]
         context = {'products': products, 'search_result': search_result,
-                   'search_term': search_term, 'cartItems': cartItems}
+                   'search_term': search_term, 'cartItems': cartItems, 'favoriteitemsid': favoriteitemsid}
     else:
         products = Product.objects.all()
         context = {'products': products, 'search_result': search_result,
-                   'search_term': search_term,  'favoriteitemsid': favoriteitemsid}
+                   'search_term': search_term}
 
     return render(request, 'store/search.html', context)
 

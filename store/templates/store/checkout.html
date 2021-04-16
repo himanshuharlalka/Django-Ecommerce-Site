@@ -33,6 +33,13 @@
 						<div class="form-field">
 							<input class="form-control" type="text" name="country" placeholder="Country">
 						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" id="flexCheckDefault" name="cod" onclick="document.getElementById('flexCheckDefault').setAttribute('value', 
+							document.getElementById('flexCheckDefault').value * -1)" value='-1'>
+							<label class="form-check-label" for="flexCheckDefault">
+								Cash On Delivery(COD)
+							</label>
+						  </div>
 					</div>
 
 					<hr>
@@ -40,8 +47,12 @@
 				</form>
 			</div>
 
-			<br>
+			<br id="break">
 			<div class="box-element hidden" id="payment-info">
+				<form id="goBack">
+					<input id="go-back" class="btn btn-outline-dark" type="submit" value="&#x2190; Shipping Details">
+				</form>
+				<hr>
 				<p>Payment Options:</p>
 				<hr>
 				<div id="paypal-button-container"></div>
@@ -125,10 +136,29 @@
 		form.addEventListener('submit', function(e){
 	    	e.preventDefault()
 	    	console.log('Form Submitted.')
+			console.log(form.cod.value)
+			if(form.cod.value==-1){
 	    	document.getElementById('form-button').classList.add("hidden");
+			document.getElementById('form-wrapper').classList.add("hidden");
+			document.getElementById('break').classList.add("hidden");
 	    	document.getElementById('payment-info').classList.remove("hidden");
+			} else{
+				if (confirm('Are you sure you want to place the order?')) {
+					submitFormData()
+				} else {
+					console.log('Not ordered');
+				}
+			}
 	    })
-
+		var form1 = document.getElementById('goBack')
+		form1.addEventListener('submit', function(e){
+	    	e.preventDefault()
+	    	
+	    	document.getElementById('form-button').classList.remove("hidden");
+			document.getElementById('form-wrapper').classList.remove("hidden");
+			document.getElementById('break').classList.remove("hidden");
+	    	document.getElementById('payment-info').classList.add("hidden");
+	    })	
 	    document.getElementById('make-payment').addEventListener('click', function(e){
 	    	submitFormData()
 	    })

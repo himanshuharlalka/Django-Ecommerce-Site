@@ -45,33 +45,33 @@
 
 	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	    <ul class="navbar-nav mr-auto">
-	      <li class="nav-item active">
+	      <li class="nav-item">
 	        <a class="nav-link" href="{% url 'fashion' %}">Fashion <span class="sr-only">(current)</span></a>
 	      </li>
-		  <li class="nav-item active">
+		  <li class="nav-item">
 	        <a class="nav-link" href="{% url 'books' %}">Books <span class="sr-only">(current)</span></a>
 	      </li>
-		  <li class="nav-item active">
+		  <li class="nav-item">
 	        <a class="nav-link" href="{% url 'electronics' %}">Electronics <span class="sr-only">(current)</span></a>
 	      </li>
-		  <li class="nav-item active">
+		  <li class="nav-item ">
 	        <a class="nav-link" href="{% url 'accessories' %}">Accessories <span class="sr-only">(current)</span></a>
 	      </li>
 	 
 	    </ul>
 		<form id="search-bar" class="form-inline my-2 my-lg-0" style="margin-right: 30px;" method="GET" action="{% url 'search' %}">
-			<input class="form-control" id="search" type="search" name="search" placeholder="Search for product..." aria-label="Search">
+			<input class="form-control" id="search" type="search" name="search" placeholder="Search for product..." aria-label="Search" style="width:400px">
 			<button id="search-icon" class="btn btn-outline-warning my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
 		  </form>
 	    <div class="form-inline my-2 my-lg-0">
 
 			{% if user.is_authenticated %}
-			<a href="{% url 'logout' %}"class="btn btn-warning">Logout</a>
+			<a href="{% url 'logout' %}"class="btn btn-warning" style="border-radius: 10px">Logout</a>
 			<a href="{% url 'user' user_id=user.id %}"><img src="{% static 'images/user.png' %}" alt="user-icon" height="40px" style="margin-left: 15px;"></a>
 			{% else %}
 
 
-			<a href="{% url 'login' %}"class="btn btn-warning">Login</a>
+			<a href="{% url 'login' %}"class="btn btn-warning" style="border-radius: 10px">Login</a>
 	     	{% endif %}
 	     	<a href="{% url 'cart' %}">
 	    		<img  id="minizon-cart-icon" src="{% static 'images/minizon-cart.png' %}">

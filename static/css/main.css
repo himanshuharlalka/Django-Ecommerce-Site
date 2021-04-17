@@ -10,7 +10,13 @@ h5,
 h6 {
   color: hsl(0, 0%, 30%);
 }
+.btn {
+  transition: 0.4s;
+}
 
+.btn:hover {
+  transform: scale(1.03);
+}
 .box-element {
   box-shadow: hsl(0, 0%, 80%) 0 0 16px;
   background-color: #fff;
@@ -33,6 +39,31 @@ h6 {
 .bg-dark {
   background-color: #00003f !important;
 }
+
+.navbar .navbar-nav .nav-link {
+  position: relative;
+  margin: 0 20px;
+}
+
+.navbar .navbar-nav .nav-link:hover {
+  color: white;
+}
+.navbar .navbar-nav .nav-link::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: white;
+  width: 0%;
+  content: "";
+  height: 1.5px;
+  transition: 0.5s;
+}
+.navbar .navbar-nav .nav-link:hover::after {
+  width: 100%;
+}
+
 #logo {
   width: 200px;
 }
@@ -54,6 +85,7 @@ h6 {
   border-radius: 10px;
   border-top-left-radius: 0px !important;
   border-bottom-left-radius: 0px !important;
+  transform: none;
 }
 
 #search-icon:hover {

@@ -353,8 +353,10 @@ def history(request):
         orders = Order.objects.filter(
             customer=customer, complete=True)
         orderItems = OrderItem.objects.all()
-        # items = order.orderitem_set.all()
-        # cartItems = order.get_cart_items
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
     else:
         # Create empty cart for now for non-logged in user
         items = []
@@ -363,7 +365,8 @@ def history(request):
         return redirect('login')
 
     # context = {'items': items, 'order': order, 'cartItems': cartItems}
-    context = {'orders': orders, 'orderItems': orderItems}
+    context = {'orders': orders,
+               'orderItems': orderItems,  'cartItems': cartItems}
     return render(request, 'store/history.html', context)
 
 

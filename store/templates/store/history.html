@@ -18,7 +18,7 @@
             {% for order in orders %}
 			<div class="box-element">
 				<div class="cart-row">
-					<div style="flex:2"></div>
+					<div style="flex:2"><strong>Order id: {{order.transaction_id}}</strong></div>
 					<div style="flex:2"><strong>Item</strong></div>
 					<div style="flex:1"><strong>Price</strong></div>
 					<div style="flex:1"><strong>Quantity</strong></div>
@@ -46,7 +46,9 @@
 				
 			</div>
 			<br>
-            {% endfor %}
+			{% empty %}
+			<div><h4>No orders yet...</h4></div>
+			{% endfor %}
 		</div>
 	</div>
 	

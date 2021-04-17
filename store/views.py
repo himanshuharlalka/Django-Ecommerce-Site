@@ -391,3 +391,19 @@ def updateFav(request):
         favoriteItem.delete()
 
     return JsonResponse('Fav item was updated', safe=False)
+
+
+def cancelOrder(request):
+    data = json.loads(request.body)
+    orderId = data['orderId']
+    action = data['action']
+    print('Action:', action)
+    print('Order:', orderId)
+
+    customer = request.user.customer
+    order = Order.objects.get(id=orderId)
+    print(order)
+    if action == 'cancel':
+        order.delete()
+
+    return JsonResponse('Order cancelled', safe=False)

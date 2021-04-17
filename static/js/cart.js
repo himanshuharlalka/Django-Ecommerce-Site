@@ -1,5 +1,6 @@
 var updateBtns = document.getElementsByClassName("update-cart");
 var favBtns = document.getElementsByClassName("update-fav");
+var cancelBtns = document.getElementsByClassName("cancel-order");
 
 for (i = 0; i < favBtns.length; i++) {
   favBtns[i].addEventListener("click", function () {
@@ -10,6 +11,17 @@ for (i = 0; i < favBtns.length; i++) {
     updateFav(productId, action);
   });
 }
+
+for (i = 0; i < cancelBtns.length; i++) {
+  cancelBtns[i].addEventListener("click", function () {
+    var orderId = this.dataset.order;
+    var action = this.dataset.action;
+    console.log("orderId:", orderId, "Action:", action);
+    console.log("USER:", user);
+    cancelOrder(orderId, action);
+  });
+}
+
 for (i = 0; i < updateBtns.length; i++) {
   updateBtns[i].addEventListener("click", function () {
     var productId = this.dataset.product;
@@ -58,6 +70,27 @@ function updateFav(productId, action) {
       "X-CSRFToken": csrftoken,
     },
     body: JSON.stringify({ productId: productId, action: action }),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      location.reload();
+    });
+}
+
+function cancelOrder(orderId, action) {
+  console.log("User is authenticated, sending data...");
+
+  var url = "/cancel_order/";
+
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrftoken,
+    },
+    body: JSON.stringify({ orderId: orderId, action: action }),
   })
     .then((response) => {
       return response.json();

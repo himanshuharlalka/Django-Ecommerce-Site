@@ -17,6 +17,7 @@
 			<br>
             {% for order in orders %}
 			<div class="box-element">
+				<button data-order="{{order.id}}" data-action="cancel" class="btn btn-outline-danger cancel-order" style="margin-bottom: 10px;">Cancel order</button>
 				<div class="cart-row">
 					<div style="flex:2"><strong>Order id: {{order.transaction_id}}</strong></div>
 					<div style="flex:2"><strong>Item</strong></div>

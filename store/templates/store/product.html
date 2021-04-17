@@ -17,12 +17,13 @@
         {% if product.id in favoriteitemsid %}
         <button data-product="{{product.id}}" data-action="remove-fav" class="btn btn-danger add-btn update-fav"><i class="fas fa-heart"></i></button>
         {% else %}
-        <button data-product="{{product.id}}" data-action="add-fav" class="btn btn-outline-danger add-btn update-fav"><i class="fas fa-heart"></i></button>
-        {% endif %}
+        <button data-product="{{product.id}}" data-action="add-fav" class="btn btn-outline-danger add-btn update-fav"  onclick="toastFav()"><i class="fas fa-heart"></i></button>
+        <div id="snackbar-fav">Adding to favorite...</div>		      
+          {% endif %}
         {% endif %}
         {% if user.is_authenticated %}
-        <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
-        {% else %}
+        <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart" onclick="toastCart()">Add to Cart</button>
+        <div id="snackbar-cart">Adding to cart...</div>        {% else %}
         <a href="{% url 'login' %}" class="btn btn-outline-secondary">Add to Cart</a>
         {% endif %}
     </div>
@@ -39,10 +40,17 @@
 			<div class="box-element product">
 				<h6><strong>{{product.name}}</strong></h6>
 				<hr>
-
-				{% if user.is_authenticated %}
-				<button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+                {% if user.is_authenticated %}
+				{% if product.id in favoriteitemsid %}
+				<button data-product="{{product.id}}" data-action="remove-fav" class="btn btn-danger add-btn update-fav"><i class="fas fa-heart"></i></button>
 				{% else %}
+                <button data-product="{{product.id}}" data-action="add-fav" class="btn btn-outline-danger add-btn update-fav"  onclick="toastFav()"><i class="fas fa-heart"></i></button>
+				<div id="snackbar-fav">Adding to favorite...</div>				
+                {% endif %}
+				{% endif %}
+				{% if user.is_authenticated %}
+                <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart" onclick="toastCart()">Add to Cart</button>
+				<div id="snackbar-cart">Adding to cart...</div>				{% else %}
 				<a href="{% url 'login' %}" class="btn btn-outline-secondary">Add to Cart</a>
 				{% endif %}
 								

@@ -99,3 +99,18 @@ function cancelOrder(orderId, action) {
       location.reload();
     });
 }
+function toastFav() {
+  var x = document.getElementById("snackbar-fav");
+  x.className = "show";
+  setTimeout(function () {
+    x.className = x.className.replace("show", "");
+  }, 15000);
+}
+
+function toastCart() {
+  var x = document.getElementById("snackbar-cart");
+  x.className = "show";
+  setTimeout(function () {
+    x.className = x.className.replace("show", "");
+  }, 15000);
+}

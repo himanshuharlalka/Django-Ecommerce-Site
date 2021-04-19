@@ -114,3 +114,9 @@ function toastCart() {
     x.className = x.className.replace("show", "");
   }, 15000);
 }
+
+function setStarValue(x) {
+  const stars = document.getElementById("stars");
+  stars.value = x;
+  console.log(stars.value);
+}

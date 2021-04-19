@@ -317,3 +317,58 @@ footer .footer-bottom {
     opacity: 0;
   }
 }
+
+.rating {
+  width: 300px;
+  font-size: 30px;
+  overflow: hidden;
+}
+.rating input {
+  float: right;
+  opacity: 0;
+  position: absolute;
+}
+.rating button,
+.rating label {
+  float: right;
+  color: #aaa;
+  text-decoration: none;
+  -webkit-transition: color 0.4s;
+  -moz-transition: color 0.4s;
+  -o-transition: color 0.4s;
+  transition: color 0.4s;
+  background-color: #e8e8e8;
+  border: none;
+  outline: none;
+}
+.rating label:hover ~ label,
+.rating input:focus ~ label,
+.rating label:hover,
+.rating button:hover,
+.rating button:hover ~ button,
+.rating button:focus,
+.rating button:focus ~ button {
+  color: orange;
+  cursor: pointer;
+}
+.rating2 {
+  direction: rtl;
+}
+.rating2 button {
+  float: none;
+}
+
+#review-form {
+  background-color: #e8e8e8;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+#rating-card {
+  background-color: #e8e8e8;
+  margin: 20px 0px;
+  padding: 20px;
+  width: 40%;
+  text-align: center;
+  border-radius: 30px;
+}

@@ -14,6 +14,7 @@ urlpatterns = [
     path('user/<int:user_id>', views.user, name='user'),
     path('update_item/', views.updateItem, name="update_item"),
     path('update_fav/', views.updateFav, name="update_fav"),
+    path('cancel_order/', views.cancelOrder, name="cancel_order"),
     path('process_order/', views.processOrder, name="process_order"),
     path('product/<int:product_id>', views.product, name="product"),
     path("register/", views.register, name="register"),

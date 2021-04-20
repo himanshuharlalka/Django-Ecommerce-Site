@@ -17,8 +17,10 @@
 			<br>
             {% for order in orders %}
 			<div class="box-element">
+				<button data-order="{{order.id}}" data-action="cancel" class="btn btn-outline-danger cancel-order" style="margin-bottom: 10px;">Cancel order</button>
+				<strong><p style="float: right; margin: 0px 20px;">Status: <span style="color: green;">{{order.status}} </span></p></strong>
 				<div class="cart-row">
-					<div style="flex:2"></div>
+					<div style="flex:2"><strong>Order id: {{order.transaction_id}}</strong></div>
 					<div style="flex:2"><strong>Item</strong></div>
 					<div style="flex:1"><strong>Price</strong></div>
 					<div style="flex:1"><strong>Quantity</strong></div>
@@ -46,7 +48,9 @@
 				
 			</div>
 			<br>
-            {% endfor %}
+			{% empty %}
+			<div><h4>No orders yet...</h4></div>
+			{% endfor %}
 		</div>
 	</div>
 	

@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User, auth
 
 from django.http import JsonResponse
@@ -33,13 +34,32 @@ def user(request, user_id):
 
 
 def product(request, product_id):
+
     if request.user.is_authenticated:
+        if request.method == 'POST':
+            stars = request.POST.get('stars', '3')
+            content = request.POST.get('content', '')
+            product = Product.objects.get(id=product_id)
+            review = Review.objects.create(
+                product=product, user=request.user, stars=stars, content=content)
+            print(review)
+            return redirect('product', product_id)
+
         customer = request.user.customer
         order, created = Order.objects.get_or_create(
             customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
         product = Product.objects.get(id=product_id)
+        reviews = Review.objects.filter(
+            product=product).order_by('-date_added')
+        total_rating = 0
+        avg_rating = 0
+        if(len(reviews) != 0):
+            for review in reviews:
+                total_rating += review.stars
+                avg_rating = total_rating/len(reviews)
+
         print(product.tags)
         sim_products = [item for item in Product.objects.all() if any(
             tag in item.tags for tag in product.tags)]
@@ -48,16 +68,23 @@ def product(request, product_id):
         favoriteitems = favorite.favoriteitem_set.all()
         favoriteitemsid = [item.product.id for item in favoriteitems]
         context = {"sim_products": sim_products,
-                   "product": product, 'cartItems': cartItems,  'favoriteitemsid': favoriteitemsid}
+                   "product": product, 'cartItems': cartItems,  'favoriteitemsid': favoriteitemsid, 'reviews': reviews, 'avg_rating': avg_rating}
 
         print(product)
         return render(request, 'store/product.html', context)
 
     else:
+        reviews = Review.objects.filter(
+            product=product).order_by('-date_added')
+        total_rating = 0
+        for review in reviews:
+            total_rating += review.stars
+        avg_rating = total_rating/len(reviews)
         product = Product.objects.get(id=product_id)
         sim_products = [item for item in Product.objects.all() if any(
             tag in item.tags for tag in product.tags)]
-        context = {"product": product, "sim_products": sim_products}
+        context = {"product": product,
+                   "sim_products": sim_products, 'reviews': reviews, 'avg_rating': avg_rating}
     return render(request, 'store/product.html', context)
 
 
@@ -353,8 +380,10 @@ def history(request):
         orders = Order.objects.filter(
             customer=customer, complete=True)
         orderItems = OrderItem.objects.all()
-        # items = order.orderitem_set.all()
-        # cartItems = order.get_cart_items
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
     else:
         # Create empty cart for now for non-logged in user
         items = []
@@ -363,7 +392,8 @@ def history(request):
         return redirect('login')
 
     # context = {'items': items, 'order': order, 'cartItems': cartItems}
-    context = {'orders': orders, 'orderItems': orderItems}
+    context = {'orders': orders,
+               'orderItems': orderItems,  'cartItems': cartItems}
     return render(request, 'store/history.html', context)
 
 
@@ -388,3 +418,19 @@ def updateFav(request):
         favoriteItem.delete()
 
     return JsonResponse('Fav item was updated', safe=False)
+
+
+def cancelOrder(request):
+    data = json.loads(request.body)
+    orderId = data['orderId']
+    action = data['action']
+    print('Action:', action)
+    print('Order:', orderId)
+
+    customer = request.user.customer
+    order = Order.objects.get(id=orderId)
+    print(order)
+    if action == 'cancel':
+        order.delete()
+
+    return JsonResponse('Order cancelled', safe=False)

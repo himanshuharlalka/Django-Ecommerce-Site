@@ -17,7 +17,8 @@ class Customer(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
-    description = models.CharField(max_length=500, default='No description')
+    description = models.CharField(
+        max_length=200, default='No description')
     price = models.FloatField()
     digital = models.BooleanField(default=False, null=True, blank=True)
     trending = models.BooleanField(default=False, null=True, blank=True)
@@ -43,6 +44,7 @@ class Order(models.Model):
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False)
     transaction_id = models.CharField(max_length=100, null=True)
+    status = models.CharField(max_length=100, default="Processing")
 
     def __str__(self):
         return str(self.id)
@@ -112,3 +114,13 @@ class FavoriteItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     favorite = models.ForeignKey(
         Favorite, on_delete=models.SET_NULL, null=True)
+
+
+class Review(models.Model):
+    product = models.ForeignKey(
+        Product, related_name="reviews", on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(
+        User, related_name="reviews", on_delete=models.CASCADE)
+    content = models.TextField(blank=True, null=True)
+    stars = models.IntegerField()
+    date_added = models.DateTimeField(auto_now_add=True)

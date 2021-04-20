@@ -12,8 +12,11 @@ h6 {
 }
 .btn {
   transition: 0.4s;
+  border-radius: 10px;
 }
-
+.update-fav {
+  border-radius: 50%;
+}
 .btn:hover {
   transform: scale(1.03);
 }
@@ -108,10 +111,6 @@ h6 {
 .col-lg-8,
 .col-lg-12 {
   margin-top: 10px;
-}
-
-.btn {
-  border-radius: 0;
 }
 
 .row-image {
@@ -371,4 +370,27 @@ footer .footer-bottom {
   width: 40%;
   text-align: center;
   border-radius: 30px;
+}
+.review-box {
+  background-color: #ededed;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+@keyframes slideInFromDown {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromUp {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }

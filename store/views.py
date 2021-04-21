@@ -74,13 +74,16 @@ def product(request, product_id):
         return render(request, 'store/product.html', context)
 
     else:
+        product = Product.objects.get(id=product_id)
         reviews = Review.objects.filter(
             product=product).order_by('-date_added')
         total_rating = 0
-        for review in reviews:
-            total_rating += review.stars
-        avg_rating = total_rating/len(reviews)
-        product = Product.objects.get(id=product_id)
+        avg_rating = 0
+        if(len(reviews) != 0):
+            for review in reviews:
+                total_rating += review.stars
+                avg_rating = total_rating/len(reviews)
+
         sim_products = [item for item in Product.objects.all() if any(
             tag in item.tags for tag in product.tags)]
         context = {"product": product,

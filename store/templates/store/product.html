@@ -70,7 +70,7 @@
 </div>
 <hr>
 {% for review in reviews %}
-<div>
+<div class="review-box">
     <p>
         <h6><strong>Date: </strong>{{review.date_added|date:"Y-m-d"}}</h6> 
         <h6>
@@ -89,10 +89,10 @@
     </p>
     <h6>{{review.content}} - <strong>{{review.user}}</strong></h6>
 </div>
-<hr>
 {% empty %}
-<div>
-   No reviews yet...
+<div class="review-box">
+   <strong>No reviews yet...
+</strong>
 </div>
 {% endfor %}
 

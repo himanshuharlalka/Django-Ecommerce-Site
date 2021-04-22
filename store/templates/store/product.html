@@ -5,7 +5,7 @@
     <div class="col-lg-6 col-xs-12">
         <img class="product-thumbnail" src="{{product.imageURL}}" style="height: 500px; width: 90%;">
     </div>
-    <div class="col-lg-6 col-xs-12">
+    <div class="col-lg-6 col-xs-12 product-details">
         <h1>{{product.name}}</h1>
         <hr>
         <br>
@@ -103,7 +103,7 @@
 <hr>
 <div class="row">
         {% for product in sim_products %}		
-        <div class="col-lg-4">
+        <div class="col-lg-4 col-md-6 col-xs-12 product-card">
 			<img class="thumbnail" src="{{product.imageURL}}">
 			<div class="box-element product">
 				<h6><strong>{{product.name}}</strong></h6>

@@ -6,10 +6,10 @@
 </div>
 <hr>
 <div class="row">
-    <div class="col-lg-6 col-xs-12" style="text-align: center;">
+    <div class="col-lg-6 col-xs-12 user-img" style="text-align: center;">
         <img src="{% static 'images/user.png' %}" style="height: 300px;">
     </div>
-    <div class="col-lg-6 col-xs-12">
+    <div class="col-lg-6 col-xs-12 user-details">
         <h3>Name: {{customer.name}}</h3>
         <h3>Email Address: {{customer.email}}</h3>
 		<br>
@@ -27,7 +27,7 @@
 		<hr>
         <div class="row">
 		{% for item in favoriteitems %}
-		<div class="col-lg-4">
+		<div class="col-lg-4 col-md-6 col-xs-12 product-card">
 			<img class="thumbnail" src="{{item.product.imageURL}}">
 			<div class="box-element product">
 				<h6><strong>{{item.product.name}}</strong></h6>

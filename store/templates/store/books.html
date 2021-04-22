@@ -8,7 +8,7 @@
         <div class="row">
 		{% for product in products %}
 		{% if "book" in product.tags %}
-		<div class="col-lg-4">
+		<div class="col-lg-4 col-md-6 col-xs-12 product-card">
 			<img class="thumbnail" src="{{product.imageURL}}">
 			<div class="box-element product">
 				<h6><strong>{{product.name}}</strong></h6>

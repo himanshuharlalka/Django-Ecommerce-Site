@@ -8,11 +8,12 @@
         <div class="row">
 		{% for product in products %}
 		{% if "book" in product.tags %}
-		<div class="col-lg-4 col-md-6 col-xs-12 product-card">
+		<div class="col-lg-3 col-md-4 col-md-6 col-xs-12 product-card">
 			<img class="thumbnail" src="{{product.imageURL}}">
 			<div class="box-element product">
 				<h6><strong>{{product.name}}</strong></h6>
 				<hr>
+				<h4 style="display: inline-block;"><strong>₹{{product.price}}</strong></h4> <br>
 				{% if user.is_authenticated %}
 				{% if product.id in favoriteitemsid %}
 				<button data-product="{{product.id}}" data-action="remove-fav" class="btn btn-danger add-btn update-fav"><i class="fas fa-heart"></i></button>
@@ -27,7 +28,6 @@
 				{% endif %}
 								
 				<a class="btn btn-outline-success" href="{% url 'product' product_id=product.id %}">View</a>
-				<h4 style="display: inline-block; float: right"><strong>₹{{product.price}}</strong></h4>
 
 			</div>
 		</div>

@@ -218,7 +218,7 @@ footer .footer-top .social-links a {
 
 footer .footer-bottom {
   padding: 30px;
-  background-color: #ff914d;
+  background-color: #00002e;
   color: white;
   letter-spacing: 2px;
 }
@@ -368,7 +368,7 @@ footer .footer-bottom {
   background-color: #e8e8e8;
   margin: 20px 0px;
   padding: 20px;
-  width: 40%;
+  width: 30%;
   text-align: center;
   border-radius: 30px;
 }
@@ -441,4 +441,10 @@ footer .footer-bottom {
 
 .product-card {
   animation: 1s ease-out 0s 1 grow;
+  margin-bottom: 25px;
+  transition: 0.5s;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
 }

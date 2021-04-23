@@ -10,6 +10,7 @@ h5,
 h6 {
   color: hsl(0, 0%, 30%);
 }
+
 .btn {
   transition: 0.4s;
   border-radius: 10px;
@@ -217,7 +218,7 @@ footer .footer-top .social-links a {
 
 footer .footer-bottom {
   padding: 30px;
-  background-color: #ff914d;
+  background-color: #00002e;
   color: white;
   letter-spacing: 2px;
 }
@@ -367,7 +368,7 @@ footer .footer-bottom {
   background-color: #e8e8e8;
   margin: 20px 0px;
   padding: 20px;
-  width: 40%;
+  width: 30%;
   text-align: center;
   border-radius: 30px;
 }
@@ -393,4 +394,57 @@ footer .footer-bottom {
   100% {
     transform: translateY(0);
   }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.product-thumbnail {
+  animation: 1s ease-out 0s 1 slideInFromLeft;
+}
+
+.product-details {
+  animation: 1s ease-out 0s 1 slideInFromRight;
+}
+
+.user-img {
+  animation: 1s ease-out 0s 1 slideInFromLeft;
+}
+
+.user-details {
+  animation: 1s ease-out 0s 1 slideInFromRight;
+}
+
+@keyframes grow {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.product-card {
+  animation: 1s ease-out 0s 1 grow;
+  margin-bottom: 25px;
+  transition: 0.5s;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
 }

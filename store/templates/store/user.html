@@ -6,15 +6,15 @@
 </div>
 <hr>
 <div class="row">
-    <div class="col-lg-6 col-xs-12" style="text-align: center;">
+    <div class="col-lg-6 col-xs-12 user-img" style="text-align: center;">
         <img src="{% static 'images/user.png' %}" style="height: 300px;">
     </div>
-    <div class="col-lg-6 col-xs-12">
+    <div class="col-lg-6 col-xs-12 user-details">
         <h3>Name: {{customer.name}}</h3>
         <h3>Email Address: {{customer.email}}</h3>
 		<br>
 		<br>
-        <a href="{% url 'history' %}" class="btn btn-outline-primary" >
+        <a href="{% url 'history' %}" class="btn btn-outline-success" >
             Order History
         </a>
     </div>
@@ -27,11 +27,12 @@
 		<hr>
         <div class="row">
 		{% for item in favoriteitems %}
-		<div class="col-lg-4">
+		<div class="col-lg-3 col-md-4 col-md-6 col-xs-12 product-card">
 			<img class="thumbnail" src="{{item.product.imageURL}}">
 			<div class="box-element product">
 				<h6><strong>{{item.product.name}}</strong></h6>
 				<hr>
+				<h4 style="display: inline-block;"><strong>₹{{item.product.price}}</strong></h4> <br>
 				{% if user.is_authenticated %}
 				{% if item.product.id in favoriteitemsid %}
 				<button data-product="{{item.product.id}}" data-action="remove-fav" class="btn btn-danger add-btn update-fav"><i class="fas fa-heart"></i></button>
@@ -47,7 +48,6 @@
 				{% endif %}
 								
 				<a class="btn btn-outline-success" href="{% url 'product' product_id=item.product.id %}">View</a>
-				<h4 style="display: inline-block; float: right"><strong>₹{{item.product.price}}</strong></h4>
 
 			</div>
 		</div>
